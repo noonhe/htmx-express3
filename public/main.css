@@ -72,6 +72,10 @@ form button:active {
   background-color: #4c0899;
 }
 
+form button:disabled{
+  background-color: gray;
+}
+
 #goals {
   margin: 2rem 0;
 }
@@ -105,3 +109,4 @@ form button:active {
 #goals li button:active {
   background-color: #f6459d;
 }
+

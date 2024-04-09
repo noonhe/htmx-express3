@@ -36,14 +36,15 @@ app.get('/', (req, res) => {
             hx-post="/goal" 
             hx-target="#goals" 
             hx-swap="beforeend" 
-            hx-on:htmx:after-request="document.querySelector('form').reset()" 
+            hx-on::after-request="this.reset()" 
+            hx-disabled-elt="form button"
             id="goal-form"
           >
             <div>
               <label htmlFor="goal">Goal</label>
               <input type="text" id="goal" name="goal" />
             </div>
-            <button type="submit">Add goal</button>
+            <button  type="submit">Add goal</button>
           </form>
         </section>
         <section>
@@ -63,7 +64,9 @@ app.post('/goal', (req, res) => {
   let newGoal = req.body.goal;
   const id = `g-${new Date().getTime()}`;
   courseGoals.push({id:id ,title:newGoal});
-  res.send(renderGoalListItem(id , newGoal));
+  setTimeout(() => {
+    res.send(renderGoalListItem(id , newGoal));
+  }, 1000);
  
 })
 
