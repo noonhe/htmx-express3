@@ -6,7 +6,7 @@ function renderGoalListItem(id , newGoal){
   return `
     <li id="${id}">
       <span>${newGoal}</span>
-      <button hx-delete="/goal/${id}" hx-target="#${id}">Remove</button>
+      <button hx-delete="/goal/${id}" hx-target="closest li" hx-confirm="Are you sure?">Remove</button>
     </li>
   `
 }
@@ -31,7 +31,14 @@ app.get('/', (req, res) => {
       <main>
         <h1>Manage your course goals</h1>
         <section>
-          <form hx-trigger="submit" hx-post="/goal" hx-target="#goals" hx-swap="beforeend"  id="goal-form">
+          <form 
+            hx-trigger="submit" 
+            hx-post="/goal" 
+            hx-target="#goals" 
+            hx-swap="beforeend" 
+            hx-on:htmx:after-request="document.querySelector('form').reset()" 
+            id="goal-form"
+          >
             <div>
               <label htmlFor="goal">Goal</label>
               <input type="text" id="goal" name="goal" />
@@ -57,7 +64,7 @@ app.post('/goal', (req, res) => {
   const id = `g-${new Date().getTime()}`;
   courseGoals.push({id:id ,title:newGoal});
   res.send(renderGoalListItem(id , newGoal));
-
+ 
 })
 
 app.delete('/goal/:id' , (req , res)=>{
